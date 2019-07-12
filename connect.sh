@@ -18,13 +18,12 @@
 url=10.10.21
 port=2111
 
-mode5addr=84
+mode5addr=46
 mode72addr=88
 mode73addr=89
 mode10addr=47
 
 terminal_mode=0
-condition="_"
 
 args=("$@")
 args_count=${#args[@]}
