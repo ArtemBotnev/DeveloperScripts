@@ -1,5 +1,6 @@
+## adb util scripts
 ### connect.sh
-runs adb command "adb connect url:port" for certain device from list.
+Runs adb command "adb connect url:port" for certain device from list.
 You should modify ulrs and port for your devices: 
 ``` sh
 url=10.10.21
@@ -10,8 +11,7 @@ mode72addr=88
 mode73addr=89
 mode10addr=47
 ```
-
-Usage examples:
+#### *Usage examples:*
 connect to device with mode5addr (adb connect 10.10.21.46:2111)
 ```sh
 ./connect.sh 5
@@ -24,3 +24,5 @@ kill server and connect to device with mode5addr (kill-server $$ adb connect 10.
 ```sh
 ./connect.sh -r 5
 ```
+### imei.sh
+Just returns imei of single device connected by adb
