@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#shows screen size in density-independent pixels (dp) of device connected through adb
+#shows screen size in density-independent pixels (dp) of device connected via adb
 
 density=$(adb shell wm density)
 dens_num=$(echo $density | tr -dc '0-9')

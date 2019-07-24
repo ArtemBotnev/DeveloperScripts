@@ -25,7 +25,7 @@ kill server and connect to device with mode5addr (kill-server $$ adb connect 10.
 ./connect.sh -r 5
 ```
 ### imei.sh
-Just returns imei of single device connected through adb
+Just returns imei of single device connected via adb
 
 ### screen_size_dp.sh
-Shows screen size in density-independent pixels (dp) of single device connected through adb
+Shows screen size in density-independent pixels (dp) of single device connected via adb
