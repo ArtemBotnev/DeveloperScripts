@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Created by Artem Botnev on 05/05/2019
 # adb connect fast helper
 
 # example of usage:
