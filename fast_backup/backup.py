@@ -1,8 +1,9 @@
 import os
 from pathlib import Path
+import time
 
 home_path = str(Path.home())
-source_dir = '~/test/source'
+source_dir = '~/temp'
 dist_dir = '~/test/directory'
 
 
@@ -37,9 +38,20 @@ def check_path(p):
             check_path(p)
 
 
-# def copy_files():
-#     source_path.ch
+def copy_file(file):
+    print(file.name.format())
+    print(file.absolute())
 
+
+def copy_tree(source):
+    if source.is_dir():
+        for path in source.iterdir():
+            copy_tree(path)
+    else:
+        copy_file(source)
+
+
+start_time = int(round(time.time() * 1000))
 
 source_path = create_path(source_dir)
 if not source_path.exists():
@@ -47,5 +59,9 @@ if not source_path.exists():
     exit(1)
 
 dist_path = create_path(dist_dir)
+copy_tree(source_path)
 
 check_path(dist_path)
+
+finish_time = int(round(time.time() * 1000))
+print('It has taken %d milliseconds ' % (finish_time - start_time))
