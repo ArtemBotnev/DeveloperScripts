@@ -1,10 +1,16 @@
+# Requires python version 3.5 or higher
+# Copies all new and updated source directory files to destination directory
+# Exclude empty folders
+
 from pathlib import Path
+from shutil import copy
 import time
 
 source_dir_count = 0
-
 source_files_count = 0
 copied_files_count = 0
+updated_files_count = 0
+data_size = 0
 
 home_path = str(Path.home())
 source_dir = '~/temp'
@@ -22,7 +28,7 @@ def create_dir(p):
 
 def check_path(p):
     if not p.exists():
-        message = format('directory %s doesn\'t, would you like to create it? press y(yes), n(no)' % dist_dir)
+        message = format('directory %s doesn\'t exist, would you like to create it? press y(yes), n(no)' % dist_dir)
         answer = input(message)
         if answer == 'y':
             create_dir(p)
@@ -35,20 +41,24 @@ def check_path(p):
 
 def copy_file(file, destination):
     global source_files_count
+    global copied_files_count
+    global updated_files_count
+    global data_size
     source_files_count += 1
 
-    print(file.name.format())
-    print(file.absolute())
-    print(destination)
-
-    print(file.relative_to(source_path))
-
     dist_file_path = destination.joinpath(file.relative_to(source_path))
-    print(dist_file_path)
+
     if dist_file_path.exists():
-        print(dist_file_path.stat().st_ctime)
+        if dist_file_path.stat().st_mtime < file.stat().st_mtime:
+            copy(file.absolute(), dist_file_path)
+            updated_files_count += 1
+            data_size += file.stat().st_size
     else:
-        print(file.stat().st_mtime)
+        dist_dir = dist_file_path.parent
+        create_dir(dist_dir)
+        copy(file.absolute(), dist_dir)
+        copied_files_count += 1
+        data_size += file.stat().st_size
 
 
 def copy_tree(source, destination):
@@ -62,6 +72,9 @@ def copy_tree(source, destination):
         copy_file(source, destination)
 
 
+print()
+print('Copy data from %s to %s' % (source_dir, dist_dir))
+print()
 start_time = int(round(time.time() * 1000))
 
 source_path = Path(source_dir).expanduser()
@@ -75,6 +88,12 @@ copy_tree(source_path, dist_path)
 check_path(dist_path)
 
 finish_time = int(round(time.time() * 1000))
+
 print('It has taken %d milliseconds ' % (finish_time - start_time))
-print('Total count of source packages: %d ' % source_dir_count)
-print('Total count of source files: %d ' % source_files_count)
+print()
+print('Total count of source packages:  %d' % source_dir_count)
+print('Total count of source files:     %d' % source_files_count)
+print('Total count of copied files:     %d' % copied_files_count)
+print('Total count of updated files:    %d' % updated_files_count)
+print()
+print('Total copied data:               %d kB' % (data_size / 1024))
