@@ -2,9 +2,10 @@
 # Copies all new and updated source directory files to destination directory
 # Exclude empty folders
 
+import time
+from sys import argv
 from pathlib import Path
 from shutil import copy
-import time
 
 source_dir_count = 0
 source_files_count = 0
@@ -13,8 +14,8 @@ updated_files_count = 0
 data_size = 0
 
 home_path = str(Path.home())
-source_dir = '~/temp'
-dist_dir = '~/test/directory'
+source_dir = argv[1]
+dist_dir = argv[2]
 
 
 def create_dir(p):
@@ -22,17 +23,15 @@ def create_dir(p):
         p.mkdir(parents=True, exist_ok=True)
     except OSError:
         print('Creation of the directory %s failed, check path name and try again' % dist_path)
-    else:
-        print('Successfully created the directory %s ' % dist_path)
 
 
 def check_path(p):
     if not p.exists():
         message = format('directory %s doesn\'t exist, would you like to create it? press y(yes), n(no)' % dist_dir)
         answer = input(message)
-        if answer == 'y':
+        if answer == 'y' or answer == 'Y':
             create_dir(p)
-        elif answer == 'n':
+        elif answer == 'n' or answer == 'N':
             print('Destination directory doesn\'t exist')
             exit(0)
         else:
@@ -75,7 +74,6 @@ def copy_tree(source, destination):
 print()
 print('Copy data from %s to %s' % (source_dir, dist_dir))
 print()
-start_time = int(round(time.time() * 1000))
 
 source_path = Path(source_dir).expanduser()
 if not source_path.exists():
@@ -83,10 +81,10 @@ if not source_path.exists():
     exit(1)
 
 dist_path = Path(dist_dir).expanduser()
-copy_tree(source_path, dist_path)
-
 check_path(dist_path)
 
+start_time = int(round(time.time() * 1000))
+copy_tree(source_path, dist_path)
 finish_time = int(round(time.time() * 1000))
 
 print('It has taken %d milliseconds ' % (finish_time - start_time))
