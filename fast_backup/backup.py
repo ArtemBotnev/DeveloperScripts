@@ -1,5 +1,12 @@
+# Fast backup
+# Copyright Artem Botnev 2019
+# MIT License
+
 # Requires python version 3.5 or higher
 # Copies all new and updated source directory files to destination directory
+# (checks if each file already exist in destination directory and copy only if
+# doesn't or has been updated)
+# Copies full directories tree
 # Exclude empty folders
 
 import time
