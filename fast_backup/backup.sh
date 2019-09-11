@@ -14,4 +14,4 @@
 # ./backup.sh ~/source ~/dist
 # will copy -> subdirectories with files from ~/source to ~/dist
 
-python3 backup.py $1 $2
+python3 $(dirname "$0")/backup.py $1 $2
