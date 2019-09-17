@@ -14,6 +14,12 @@
 # ./connect.sh -r 5
 # will run -> adb kill-server $$ adb connect 10.10.21.46:2111
 
+# ./connect.sh -a 90
+# will run -> adb connect 10.10.21.90:2111
+
+# ./connect.sh -ra 90
+# will run -> adb kill-server $$ adb connect 10.10.21.90:2111
+
 # url, port, mode{your_device_name}addr must be specified for devices
 
 url=10.10.21
@@ -24,24 +30,13 @@ mode72addr=88
 mode73addr=89
 mode10addr=47
 
-terminal_mode=0
-
-args=("$@")
-args_count=${#args[@]}
-
 connect_to () {
     adb connect ${url}.$1:${port}
+    exit 0
 }
-    
-if [[ args_count -eq 2 ]]
-    then terminal_mode=$2
-        if [[ $1 -eq "-r" ]]
-        then adb kill-server
-    fi
-    else terminal_mode=$1
-fi
 
-case $terminal_mode in
+connect_by_mode () {
+    case $1 in
     5) connect_to $mode5addr
     ;;
     10) connect_to $mode10addr
@@ -50,7 +45,28 @@ case $terminal_mode in
     ;;
     73) connect_to $mode73addr
     ;;
-    -r) adb kill-server
-    ;;
     *) echo found no devices with such address
-esac
+    esac
+}
+
+check_arg_and_connect() {
+    if [[ $1 =~ ^[0-9]+$ ]] 
+        then connect_by_mode $1 
+    else
+        exit 0
+    fi
+}
+ 
+while getopts "a:r" opt
+do
+    case $opt in
+        r) adb kill-server
+        ;;
+        a) connect_to $2
+    esac
+done
+
+if [[ $# -eq 1 ]]
+    then check_arg_and_connect $1
+    else check_arg_and_connect $2
+fi
