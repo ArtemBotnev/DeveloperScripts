@@ -9,10 +9,10 @@
 # Copies full directories tree
 # Exclude empty folders
 
-import time
 from sys import argv
 from pathlib import Path
 from shutil import copy
+from utils import *
 
 source_dir_count = 0
 source_files_count = 0
@@ -90,11 +90,14 @@ if not source_path.exists():
 dist_path = Path(dist_dir).expanduser()
 check_path(dist_path)
 
-start_time = int(round(time.time() * 1000))
+# start_time = int(round(time.time() * 1000))
+timer = Timer().start()
 copy_tree(source_path, dist_path)
-finish_time = int(round(time.time() * 1000))
+# finish_time = int(round(time.time() * 1000))
+timer.stop()
 
-print('It has taken %d milliseconds ' % (finish_time - start_time))
+print()
+print(timer.show_time())
 print()
 print('Total count of source packages:  %d' % source_dir_count)
 print('Total count of source files:     %d' % source_files_count)
