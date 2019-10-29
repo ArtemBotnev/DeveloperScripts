@@ -90,10 +90,8 @@ if not source_path.exists():
 dist_path = Path(dist_dir).expanduser()
 check_path(dist_path)
 
-# start_time = int(round(time.time() * 1000))
 timer = Timer().start()
 copy_tree(source_path, dist_path)
-# finish_time = int(round(time.time() * 1000))
 timer.stop()
 
 print()
@@ -104,4 +102,4 @@ print('Total count of source files:     %d' % source_files_count)
 print('Total count of copied files:     %d' % copied_files_count)
 print('Total count of updated files:    %d' % updated_files_count)
 print()
-print('Total copied data:               %d kB' % (data_size / 1024))
+print('Total copied data:               %s' % DataMeasure.show_data_size(data_size))

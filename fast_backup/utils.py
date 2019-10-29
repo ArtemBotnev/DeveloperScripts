@@ -19,7 +19,7 @@ class Timer:
 
     def show_time(self):
         _time = self._finish_time - self._start_time
-        sec = int(_time) % 60
+        sec = float(_time) % 60
         sec_string = format('%.2f seconds' % sec)
         minutes = int(_time) // 60
         minutes_string = ''
@@ -32,3 +32,22 @@ class Timer:
                 hours_string = format('%d hours ' % hours)
 
         return 'It has taken ' + hours_string + minutes_string + sec_string
+
+
+class DataMeasure:
+    
+    @staticmethod
+    def show_data_size(count):
+        m = ['bytes', 'kB', 'mB', 'gB']
+
+        for s in m:
+            result = count / 1024
+            if result < 1:
+                if s == 'bytes':
+                    return format('%.0f %s' % (count, s))
+                else:
+                    return format('%.3f %s' % (count, s))
+            else:
+                count = result
+
+        return format('%.3f tB' % count)
