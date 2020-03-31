@@ -1,6 +1,13 @@
 #!/bin/bash
-# Creates commit with all changes.
+# Created by Artem Botnev on 03/19/2020
+
+# reates commit with all changes.
 # Adds branch name before message
+
+# example of usage:
+# current branch name is super_branch
+# ./commit.sh 'it is new cool commit'
+# will be created commit with message: super_branch it is new cool commit
 
 # check your remote
 remote=origin
