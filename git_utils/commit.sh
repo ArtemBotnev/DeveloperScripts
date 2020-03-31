@@ -1,7 +1,7 @@
 #!/bin/bash
 # Created by Artem Botnev on 03/19/2020
 
-# reates commit with all changes.
+# creates commit with all changes.
 # Adds branch name before message
 
 # example of usage:
